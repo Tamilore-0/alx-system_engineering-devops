@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 # Bash script that configures nginx on a new Ubuntu machine
 
-sudo apt-get -y update
-sudo apt-get install -y nginx
 
-# allow traffic on port 80.
-sudo ufw allow 'Nginx HTTP'
+sudo su <<EOF
 
-# remove default landing page
-sudo rm /var/www/html/index.nginx-debian.html
-# create file where user has permission
-echo "Hello World!" > ~/index.html
-# set the file as the landing page
-sudo mv ~/index.html /var/www/html/
+apt-get -y update
+apt-get install -y nginx
 
-sudo service nginx restart;
+# Configure Nginx to listen on port 80
+ufw allow 'Nginx HTTP'
 
-echo "done";
+# Restart Nginx
+service nginx start
+
+# Create a file with "Hello World!" message
+echo "Hello World!" > /var/www/html/index.html
+
+EOF
