@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Bash script that configures nginx on a new Ubuntu machine
+
+sudo apt-get -y update
+sudo apt-get install -y nginx
+
+# allow traffic on port 80.
+sudo ufw allow 'Nginx HTTP'
+
+# remove default landing page
+sudo rm /var/www/html/index.nginx-debian.html
+# create file where user has permission
+echo "Hello World!" > ~/index.html
+# set the file as the landing page
+sudo mv ~/index.html /var/www/html/
+
+sudo service nginx restart;
+
+echo "done";
