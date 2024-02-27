@@ -9,8 +9,8 @@ class { 'nginx':
   manage_repo => true,
 }
 
-# Define Nginx server block for example.com
-nginx::resource::server { 'example.com':
+# Define Nginx server block for the default server
+nginx::resource::server { 'default_server':
   www_root    => '/var/www/html',
   listen_port => '80',
   server_name => '_',
@@ -26,19 +26,16 @@ nginx::resource::server { 'example.com':
       },
     },
   },
-} ~> Service['nginx']
-
+} ~> Service['nginx']  # Ensure Nginx service restarts after server configuration
 
 service { 'nginx':
   ensure  => 'running',
   enable  => true,
+  require => Package['nginx']
 }
 
 file { '/var/www/html/index.html':
   ensure  => present,
   content => "Hello World!\n",
-  require => Package['nginx'],
-}
- 
-
-
+  require => [Package['nginx'], Service['nginx']],  # Require Nginx package and service
+} -> Service['nginx']
