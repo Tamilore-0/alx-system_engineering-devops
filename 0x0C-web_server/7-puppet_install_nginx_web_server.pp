@@ -11,7 +11,6 @@ class { 'nginx':
 
 # Define Nginx server block for the default server
 nginx::resource::server { 'default_server':
-  www_root    => '/var/www/html',
   listen_port => '80',
   server_name => '_',
   ensure      => present,
@@ -38,4 +37,5 @@ file { '/var/www/html/index.html':
   ensure  => present,
   content => "Hello World!\n",
   require => [Package['nginx'], Service['nginx']],  # Require Nginx package and service
-} -> Service['nginx']
+  notify  => Service['nginx'],
+}
