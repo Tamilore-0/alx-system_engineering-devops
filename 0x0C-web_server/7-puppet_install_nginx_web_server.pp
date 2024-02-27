@@ -1,41 +1,25 @@
-# Ensure Nginx is installed and listening on port 80
-# Install Nginx package
-package { 'nginx':
-  ensure => 'installed',
+#manifest to configure  server with Puppet
+
+package {'nginx':
+  ensure => 'present',
 }
 
-# Manage Nginx repository configuration
-class { 'nginx':
-  manage_repo => true,
+exec {'install':
+  command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
+  provider => shell,
+
 }
 
-# Define Nginx server block for the default server
-nginx::resource::server { 'default_server':
-  listen_port => '80',
-  server_name => '_',
-  ensure      => present,
-  require     => Package['nginx'],  # Ensure Nginx package is installed first
-  locations   => {
-    '/' => {  # Define location block for the root path
-      ensure => present,
-      # Use the 'location' parameter to define Nginx location blocks
-      location => {
-        'return' => '301',
-        'value'  => 'https://github.com/tami-cp0',
-      },
-    },
-  },
-} ~> Service['nginx']  # Ensure Nginx service restarts after server configuration
-
-service { 'nginx':
-  ensure  => 'running',
-  enable  => true,
-  require => Package['nginx']
+exec {'Hello':
+  command  => 'echo "Hello World!" | sudo tee /var/www/html/index.html',
+  provider => shell,
 }
 
-file { '/var/www/html/index.html':
-  ensure  => present,
-  content => "Hello World!\n",
-  require => [Package['nginx'], Service['nginx']],  # Require Nginx package and service
-  notify  => Service['nginx'],
+exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tlocation \/redirect_me {\\n\\t\\treturn 301 https:\/\/github.com\/tami-cp0\/;\\n\\t}/" /etc/nginx/sites-available/default':
+  provider => shell,
+}
+
+exec {'run':
+  command  => 'sudo service nginx restart',
+  provider => shell,
 }
