@@ -2,25 +2,22 @@
 #  Bash script containing commands to automatically configure a redirect
 # on a new Ubuntu machine
 
-sudo su <<EOF
-
-apt-get -y update
-apt-get install -y nginx
+sudo apt-get -y update
+sudo apt-get install -y nginx
 
 # Configure Nginx to listen on port 80
-ufw allow 'Nginx HTTP'
+sudo ufw allow 'Nginx HTTP'
 
 # start Nginx
-service nginx start
+sudo service nginx start
 
-# Create a file with "Hello World!" message
-echo "Hello World!" > /var/www/html/index.html
+# With root priviledges, create a file with "Hello World!" message
+sudo su <<DELIMETER
+echo "Hello World!" > /var/www/html/index.html;
+DELIMETER
 
 # add permanent redirection
-my_new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com permanent;"
-sudo sed -i "s/server_name _;/$my_new_string/" /etc/nginx/sites-enabled/default
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/tami-cp0 permanent;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
-
-service nginx restart
-
-EOF
+sudo service nginx restart
