@@ -28,5 +28,9 @@ exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tl
 exec {'header':
   command => 'hostname=$(hostname) ; echo "add_header X-Served-By $hostname;" | sudo tee /etc/nginx/conf.d/custom_header.conf',
   provider => shell,
-  notify => Service['nginx'],
+} ->
+
+# Restart service
+exec {'nginx_restart':
+  command  => 'service nginx restart',
 }
