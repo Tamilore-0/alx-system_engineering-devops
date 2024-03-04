@@ -11,11 +11,13 @@ package {'nginx':
 
 # custom response header
 exec {'header':
-  command => 'hostname=$(hostname) ; echo "add_header X-Served-By $hostname;" | sudo tee /etc/nginx/conf.d/custom_header.conf',
+  command => 'hostname=$(hostname) ; echo "add_header X-Served-By \"$hostname\";" | sudo tee /etc/nginx/conf.d/custom_header.conf',
   provider => shell,
 } ->
 
 # start service
-exec {'nginx_restart':
-  command  => 'service nginx start',
+service { 'nginx':
+  ensure  => running,
+  enable  => true,
+  provider => 'init',
 }
