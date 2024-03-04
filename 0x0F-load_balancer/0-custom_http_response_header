@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Configure your Nginx server to have a custom 404 page that contains the string Ceci n'est pas une page
+# configures a brand new Ubuntu machine to the requirements asked for this task
 
 sudo apt-get -y update
 sudo apt-get install -y nginx
@@ -25,6 +25,7 @@ my_new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocati
 sudo sed -i "s/listen 80 default_server;/$my_new_string/" /etc/nginx/sites-enabled/default
 
 
+# Configure Nginx so that its HTTP response contains a custom heade
 # Get the hostname
 hostname=$(hostname)
 # Set custom response header
