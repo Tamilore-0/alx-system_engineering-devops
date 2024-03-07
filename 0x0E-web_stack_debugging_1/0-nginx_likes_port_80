@@ -3,5 +3,6 @@
 # remove and reinstall it
 apt-get remove nginx --purge
 apt-get install -y nginx
+ln -s /etc/nginx/sites-available/default /etc/sites-enabled/default;
 # start service
 service nginx restart
