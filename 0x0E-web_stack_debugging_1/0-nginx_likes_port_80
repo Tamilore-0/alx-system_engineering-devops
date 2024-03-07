@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 # web stack debugging
 # remove and reinstall it
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default;
+sudo apt-get -y purge nginx nginx-common nginx-full
+sudo apt-get -y install nginx
+sudo service restart
