@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 # web stack debugging
-sudo apt-get -y update
 # remove and reinstall it
 sudo apt-get remove nginx --purge
 sudo apt-get install -y nginx
-# allow connection on port 80
-sudo ufw allow 'Nginx HTTP'
 # start service
 sudo service nginx start
