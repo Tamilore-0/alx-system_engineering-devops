@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # web stack debugging
 # remove and reinstall it
-rm /etc/sites-enabled/default;
-ln -s /etc/nginx/sites-available/default /etc/sites-enabled/default;
+sudo rm /etc/nginx/sites-enabled/default;
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default;
 # start service
-service nginx restart
+sudo service nginx restart
