@@ -15,6 +15,7 @@ function subdomain_check {
     awk -v subdomain="$2" '{print "The subdomain", subdomain, "is a", $4, "record and points to", $5}'
 }
 
+
 if [ $# -lt 1 ]
 then
 	echo "*** Provide domain name ***"
