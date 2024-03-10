@@ -1,27 +1,31 @@
 #!/usr/bin/env bash
 # Bash script that will display information about subdomains.
-function domain_check {
-	domain_names=("www" "lb-01" "web-01" "web-02")
+subdomains=("www" "lb-01" "web-01" "web-02")
 
-	for i in "${domain_names[@]}";
-	do
-		dig "${i}"."$1" +noall +answer | \
-            awk -v subdomain="$i" '{print "The subdomain", subdomain, "is a", $4, "record and points to", $5}'
-	done
+# Function that displays info about a specific subdomain or all subdomains
+display() {
+    # Checks if a subdomain name was provided before parsing
+    if [ $# -lt 2 ]; then
+        for sub_name in "${subdomains[@]}";
+        do
+            dig "${sub_name}"."$1" +noall +answer | \
+            awk '{printf "The subdomain %s is a %s record and points to %s\n", subdomain, $4, $5}' subdomain="$sub_name"
+        done
+    else
+        dig "${2}"."$1" +noall +answer | \
+        awk '{printf "The subdomain %s is a %s record and points to %s\n", subdomain, $4, $5}' subdomain="$2"
+    fi
+
 }
 
-function subdomain_check {
-	dig "${2}"."$1" +noall +answer | \
-    awk -v subdomain="$2" '{print "The subdomain", subdomain, "is a", $4, "record and points to", $5}'
-}
 
-
+# Checks if a subdomain name was provided before parsing
 if [ $# -lt 1 ]
 then
 	echo "*** Provide domain name ***"
 elif [ $# -eq 1 ]
 then
-	domain_check "$1";
+	display "$1";
 else
-	subdomain_check "$1" "$2";
+	display "$1" "$2";
 fi

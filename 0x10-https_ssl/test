@@ -9,11 +9,11 @@ display() {
         for sub_name in "${subdomains[@]}";
         do
             dig "${sub_name}"."$1" +noall +answer | \
-            awk -v subdomain="$sub_name" '{print "The subdomain", subdomain, "is a", $4, "record and points to", $5}'
+            awk '{printf "The subdomain %s is a %s record and points to %s\n", subdomain, $4, $5}' subdomain="$sub_name"
         done
     else
         dig "${2}"."$1" +noall +answer | \
-        awk -v subdomain="$2" '{print "The subdomain", subdomain, "is a", $4, "record and points to", $5}'
+        awk '{printf "The subdomain %s is a %s record and points to %s\n", subdomain, $4, $5}' subdomain="$2"
     fi
 
 }
