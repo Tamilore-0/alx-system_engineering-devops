@@ -8,9 +8,9 @@ sudo service haproxy start
 
 # Configure HAproxy so that it send traffic to web-01 and web-02 using roundrobin
 server1=$"492915-web-01"
-server1_ip=$"54.157.167.117"
+server1_ip=$"100.26.157.241"
 server2=$"492915-web-02"
-server2_ip=$"54.160.75.58"
+server2_ip=$"52.3.250.135"
 
 frontend_configuration=$"frontend http_front
     bind *:80
