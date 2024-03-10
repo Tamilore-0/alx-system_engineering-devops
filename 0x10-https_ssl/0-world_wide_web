@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Bash script that will display information about subdomains.
-subdomains=("www" "lb-01" "web-01" "web-02")
+subdomain_names=("www" "lb-01" "web-01" "web-02")
 
 # Function that displays info about a specific subdomain or all subdomains
 display() {
     # Checks if a subdomain name was provided before parsing
     if [ $# -lt 2 ]; then
-        for sub_name in "${subdomains[@]}";
+        for i in "${subdomain_names[@]}";
         do
             dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
 		    awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
@@ -15,7 +15,6 @@ display() {
         dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
 	    awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
     fi
-
 }
 
 
