@@ -5,16 +5,15 @@ function domain_check {
 
 	for i in "${domain_names[@]}";
 	do
-		dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
-		awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
+		dig "${i}"."$1" +noall +answer | \
+            awk -v subdomain="$i" '{print "The subdomain", subdomain, "is a", $4, "record and points to", $5}'
 	done
 }
 
 function subdomain_check {
-	dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
-	awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
+	dig "${2}"."$1" +noall +answer | \
+    awk -v subdomain="$2" '{print "The subdomain", subdomain, "is a", $4, "record and points to", $5}'
 }
-
 
 if [ $# -lt 1 ]
 then
