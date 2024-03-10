@@ -8,12 +8,12 @@ display() {
     if [ $# -lt 2 ]; then
         for sub_name in "${subdomains[@]}";
         do
-            dig "${sub_name}"."$1" +noall +answer | \
-            awk '{printf "The subdomain %s is a %s record and points to %s\n", subdomain, $4, $5}' subdomain="$sub_name"
+            dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
+		    awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
         done
     else
-        dig "${2}"."$1" +noall +answer | \
-        awk '{printf "The subdomain %s is a %s record and points to %s\n", subdomain, $4, $5}' subdomain="$2"
+        dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
+	    awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
     fi
 
 }
