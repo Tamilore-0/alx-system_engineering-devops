@@ -6,7 +6,7 @@ import json
 import requests
 
 
-file_path = f'todo_all_employees.json'
+file_path = 'todo_all_employees.json'
 all_employee_dict = {}
 for i in range(1, 11):
     url = f'https://jsonplaceholder.typicode.com/users/{i}'
@@ -30,10 +30,9 @@ for i in range(1, 11):
                 "completed": data["completed"],
                 "username": username
             } for data in json_data
-    ]
-        
+            ]
     all_employee_dict[user_id] = rows
 
-# store info in json file 
+# store data in a json file
 with open(file_path, mode='w') as file:
     json.dump(all_employee_dict, file)
