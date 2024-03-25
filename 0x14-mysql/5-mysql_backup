@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Backs up all databases and converts to a tar.gz archive
-if [ $# > 0 ]; then
+if [ $# -gt 0 ]; then
     sudo mysqldump -u root -p"$1" --all-databases > backup.sql
     sudo tar -czvf $(date +"%d-%m-%Y").tar.gz backup.sql
 else
