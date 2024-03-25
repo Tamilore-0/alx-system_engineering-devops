@@ -2,9 +2,9 @@
 """
 Module
 """
+import json
 import requests
 import sys
-import json
 
 if len(sys.argv) == 2:
     url = f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}'
@@ -29,5 +29,5 @@ if len(sys.argv) == 2:
             done_tasks += 1
         tasks += 1
 
-    print(f"Employee {employee_name} is done with \
-            tasks({done_tasks}/{tasks}):\n{titles}", end='')
+    print(f"Employee {employee_name} is done with "
+          f"tasks({done_tasks}/{tasks}):\n{titles}", end='')
