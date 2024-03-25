@@ -9,8 +9,8 @@ import sys
 
 
 if len(sys.argv) == 2:
-    # file to store csv info
-    file_path = 'USER_ID.csv'
+    # file to store csv info | USER_ID.csv
+    file_path = f'{sys.argv[1]}.csv'
     url = f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}'
     response_user = requests.get(url)
     url += '/todos'
@@ -34,18 +34,6 @@ if len(sys.argv) == 2:
                 "TASK_TITLE": data["title"]
             }
         rows.append(row)
-
-    tasks = 0
-    titles = ''
-    done_tasks = 0
-    for data in json_data:
-        if data.get('completed') is True:
-            titles = titles + '\t ' + data['title'] + '\n'
-            done_tasks += 1
-        tasks += 1
-
-    print(f"Employee {employee_name} is done with "
-          f"tasks({done_tasks}/{tasks}):\n{titles}", end='')
 
     with open(file_path, mode='w') as file:
         fieldnames = ["USER_ID", "USERNAME",
