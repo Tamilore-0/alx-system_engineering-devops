@@ -19,6 +19,7 @@ if len(sys.argv) == 2:
     try:
         json_data = response_user.json()
         username = json_data['username']
+        employee_name = json_data['name']
         # get user's todo in json format
         json_data = response_todo.json()
     except json.JSONDecodeError:
@@ -33,6 +34,18 @@ if len(sys.argv) == 2:
                 "TASK_TITLE": data["title"]
             }
         rows.append(row)
+
+    tasks = 0
+    titles = ''
+    done_tasks = 0
+    for data in json_data:
+        if data.get('completed') is True:
+            titles = titles + '\t ' + data['title'] + '\n'
+            done_tasks += 1
+        tasks += 1
+
+    print(f"Employee {employee_name} is done with "
+          f"tasks({done_tasks}/{tasks}):\n{titles}", end='')
 
     with open(file_path, mode='w') as file:
         fieldnames = ["USER_ID", "USERNAME",
