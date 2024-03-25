@@ -29,7 +29,7 @@ if len(sys.argv) == 2:
         row = {
                 "USER_ID": data['userId'],
                 "USERNAME": username,
-                "TASK_COMPLETED_STATUS": "completed",
+                "TASK_COMPLETED_STATUS": data["completed"],
                 "TASK_TITLE": data["title"]
             }
         rows.append(row)
