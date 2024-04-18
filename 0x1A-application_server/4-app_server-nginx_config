@@ -15,10 +15,11 @@ server {
                 proxy_pass http://0.0.0.0:5001/number_odd_or_even/$number;
         }
 
-        location /api {
-                proxy_pass http://0.0.0.0:5002;
+        location ~ /api/* {
+                proxy_pass http://0.0.0.0:5002$request_uri;
                 include proxy_params;
         }
+
         # SSL configuration
         #
         # listen 443 ssl default_server;
