@@ -1,11 +1,15 @@
 [Unit]
-Description=Gunicorn instance to serve my Flask application
+Description=Gunicorn instance to serve Airbnb clone
+After=network.target
 
 [Service]
-ExecStart=/bin/bash -c "gunicorn --workers 3 --access-logfile /tmp/airbnb-access.log --error-logfile /tmp/airbnb-error.log --bind 0.0.0.0:5003 home/ubuntu/AirBnB_clone_v4.web_dynamic.2-hbnb:app"
-ExecStop=/bin/bash -c "pgrep gunicorn | xargs kill"
-Restart=always
-RestartSec=2
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/AirBnB_clone_v4
+ExecStart=/home/ubuntu/.local/bin/gunicorn --workers 3 --bind 0.0.0.0:5003 web_dynamic.2-hbnb:app
+ExecStop=pgrep gunicorn | xargs kill
+StandardOutput=file:/tmp/airbnb-access.log
+StandardError=file:/tmp/airbnb-error.log
 
 [Install]
 WantedBy=multi-user.target
